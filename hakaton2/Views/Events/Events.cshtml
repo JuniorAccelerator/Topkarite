@@ -1,0 +1,119 @@
+﻿@using System.Linq
+@using System.Collections
+@model List<hakaton2.Models.Models.EventViewModel>
+
+@{
+    ViewBag.Title = "Events - EcoPoints";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+
+    var actives = Model
+        .Where(e => e.Start <= DateTime.Now && (e.End == null || e.End >= DateTime.Now))
+        .OrderBy(e => e.Start)
+        .ToList();//currently active eventss
+
+    var upcoming = Model
+        .Where(x => x.Start > DateTime.Now)
+        .OrderBy(x => x.Start)
+        .ToList();
+
+    var past = Model
+       .Where(x => x.End < DateTime.Now)
+       .OrderBy(x => x.Start)
+       .ToList();
+
+}
+
+<div class="container mt-5">
+    <div class="row mb-3">
+        <div class="col-12 text-center">
+            <h1 class="text-success">Събития</h1>
+            <hr />
+        </div>
+    </div>
+
+   
+
+    <!-- Active events (stacked) -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4>Активни:</h4>
+            
+            @if (!actives.Any())
+            {
+                <div class="alert alert-secondary">Няма активни събития.</div>
+            }
+            else
+            {
+                @foreach (var e in actives)
+                {
+
+                    <div class="card mb-2 border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">@e.Title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@e.Start.Value.ToString("f")@(e.End.HasValue ? " — " + e.End.Value.ToString("f") : "")</h6>
+                             <p class="card-text">@e.CurrentParticipants / @e.MaxParticipants участници</p>
+                            <a class="btn btn-sm btn-outline-success" href="@Url.Action("Details", "Events", new { id = e.EventId })">Прочети повече</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+    <!-- Upcoming events (stacked list) -->
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4>Предстоящи събития</h4>
+
+            @if (!upcoming.Any())
+            {
+                <div class="alert alert-secondary">Няма предстоящи събития.</div>
+            }
+            else
+            {
+                @foreach (var e in upcoming)
+                {
+
+                    <div class="card mb-2 border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">@e.Title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@e.Start.Value.ToString("f")@(e.End.HasValue ? " — " + e.End.Value.ToString("f") : "")</h6>
+                            <p class="card-text">@e.CurrentParticipants / @e.MaxParticipants участници</p>
+                            <a class="btn btn-sm btn-outline-success" href="@Url.Action("Details", "Events", new { id = e.EventId })">Прочети повече</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+
+
+
+
+
+    <div class="row mb-4">
+        <div class="col-12">
+            <h4>Минали събития</h4>
+
+            @if (!past.Any())
+            {
+                <div class="alert alert-secondary">Няма събития.</div>
+            }
+            else
+            {
+                @foreach (var e in past)
+                {
+
+                    <div class="card mb-2 border-success">
+                        <div class="card-body">
+                            <h5 class="card-title">@e.Title</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">@e.Start.Value.ToString("f")@(e.End.HasValue ? " — " + e.End.Value.ToString("f") : "")</h6>
+                            <p class="card-text">@e.CurrentParticipants / @e.MaxParticipants участници</p>
+                            <a class="btn btn-sm btn-outline-success" href="@Url.Action("Details", "Events", new { id = e.EventId })">Прочети повече</a>
+                        </div>
+                    </div>
+                }
+            }
+        </div>
+    </div>
+</div>

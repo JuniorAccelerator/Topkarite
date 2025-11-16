@@ -1,0 +1,69 @@
+﻿@model hakaton2.Models.RequestEventViewModel
+
+@{
+    ViewBag.Title = "RequestEvent";
+}
+
+@{
+    ViewData["Title"] = "RecyclingEventRequest";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/StyleSheet.css" asp-append-version="true" />
+}
+
+<div class="register-container">
+    <h2>Заявка за събитие</h2>
+
+    <form asp-action="RequestEvent" asp-controller="Event" method="post">
+
+     <div class="row">
+        <div class="form-group">
+            <label>Заглавие на събитие</label>
+            <input asp-for="Title" type="text" required />
+            <span class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <label>Създател на събитие</label>
+            <input asp-for="Creator" type="text" required />
+            <span class="text-danger"></span>
+        </div>
+     </div>
+       
+      <div class="row">
+        <div class="form-group">
+            <label>Начало на събитие</label>
+            <input asp-for="Start" type="datetime-local" required />
+            <span class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label>Край на събитие</label>
+            <input asp-for="End" type="datetime-local" required />
+            <span class="text-danger"></span>
+        </div>
+      </div>
+
+        <div class="row">
+            <div class="form-group">
+                <label>Локация</label>
+                <input asp-for="Location" type="text" required />
+                <span class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label>Максимален брой хора</label>
+                <input asp-for="MaxParticipants" type="number" required />
+                <span class="text-danger"></span>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Описание</label>
+            <input asp-for="Description" type="textarea" required />
+            <span class="text-danger"></span>
+        </div>
+
+        <button type="submit" class="btn-register mt-5">Създай</button>
+    </form>
+</div>
